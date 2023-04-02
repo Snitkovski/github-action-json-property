@@ -56,9 +56,10 @@ jobs:
         echo "::set-output name=VER_1C_fromJSON1::${{ steps.get_version.outputs.prop }}"
     
     - name: Check result 14
+        # echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV    #  it works
       run: |
         echo ${{ steps.get_version.outputs.prop }}
-        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV    #  it works
+        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV
       env:
         VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
@@ -69,20 +70,24 @@ jobs:
     #    echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
     - name: Check result 16
+        # echo VER_1C_fromJSON2 = $VER_1C_fromJSON2                                       #  it works in LINUX
+        # echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}                             #  it works
+        # echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}       #  doesn't work
       run: |
         echo VER_1C_fromJSON1 = $VER_1C_fromJSON1
         echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
         echo VER_1C_fromJSON1 = ${{ steps.get_version.outputs.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON2 = $VER_1C_fromJSON2                                       #  it works in LINUX
-        echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}                             #  it works
-        echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}       #  doesn't work
+        echo VER_1C_fromJSON2 = $VER_1C_fromJSON2
+        echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
+        echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo VER_1C_fromJSON3 = ${{ env.VER_1C_fromJSON3 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
     - name: get json file v1
       id: set_var1
+        # echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE                     #  it works
       run: |
-        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE                     #  it works
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
         ls -la ${{ github.WORKSPACE }}
         content=`cat package.json`
         # the following lines are only required for multi line json
@@ -94,8 +99,9 @@ jobs:
     
     - name: get json file v2
       id: set_var2
+        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
       run: |
-        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
+        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
         ls -la ${{ github.WORKSPACE }}
         content=`cat package.json`
         # the following lines are only required for multi line json
@@ -117,8 +123,7 @@ jobs:
         echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
     
-    - name: Check result 23
-      run: |
-        echo
+    # - name: Check result 23
+    #   run: |
         #echo version = "${{ fromJson(packageJson3).version }}"
         #echo scripts.format = "${{ fromJson(packageJson3).scripts.format }}"
