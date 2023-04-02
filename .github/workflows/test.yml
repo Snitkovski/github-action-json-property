@@ -11,6 +11,13 @@ on: # rebuild any PRs and main branch changes
   workflow_dispatch:
 
 
+env:
+  VER_1C_fromJSON1:
+  VER_1C_fromJSON2:
+  VER_1C_fromJSON3:
+  PROD_VER_fromConfiguration:
+  
+
 jobs:
   testJob01:
     runs-on: ubuntu-latest
@@ -21,7 +28,7 @@ jobs:
 
     - name: get version
       id: get_version
-      uses: ./
+      uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'package.json'
         prop_path: 'version'                        #  "version": "0.2.0",
