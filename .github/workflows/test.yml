@@ -52,6 +52,7 @@ jobs:
       run: |
         echo ${{ steps.version.outputs.prop }}
         echo "VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
+        echo ${{ steps.version.outputs.prop }} >> $VER_1C_fromJSON3
     
     #- name: Check result 15
     #  run: |
@@ -62,33 +63,32 @@ jobs:
     - name: Check result 16
       run: |
         echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
+        echo VER_1C_fromJSON1 = ${{ steps.version.outputs.VER_1C_fromJSON1 }}
         echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
+        echo VER_1C_fromJSON2 = ${{ steps.version.outputs.VER_1C_fromJSON2 }}
+        echo VER_1C_fromJSON3 = ${{ env.VER_1C_fromJSON3 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
-  testJob02:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: get json file
-        id: set_var
-        run: |
-          ls -la ../
-          echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
-          ls -la $GITHUB_WORKSPACE
-          echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
-          ls -la ${{ env.GITHUB_WORKSPACE }}
-          echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
-          ls -la ${{ github.WORKSPACE }}
-          content=`cat package.json`
-          # the following lines are only required for multi line json
-          #content="${content//'%'/'%25'}"
-          #content="${content//$'\n'/'%0A'}"
-          #content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=packageJson1::$content"
-          echo "::packageJson2=$content"
+    - name: get json file
+      id: set_var
+      run: |
+        ls -la ../
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
+        ls -la $GITHUB_WORKSPACE
+        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
+        ls -la ${{ env.GITHUB_WORKSPACE }}
+        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
+        ls -la ${{ github.WORKSPACE }}
+        content=`cat package.json`
+        # the following lines are only required for multi line json
+        #content="${content//'%'/'%25'}"
+        #content="${content//$'\n'/'%0A'}"
+        #content="${content//$'\r'/'%0D'}"
+        # end of optional handling for multi line json
+        echo "::set-output name=packageJson1::$content"
+        echo "::packageJson2=$content"
     
-      - name: Check result 21
-        run: |
-          echo "${{ fromJson(steps.set_var.outputs.packageJson1).version }}"
-          echo "${{ fromJson(steps.set_var.outputs.packageJson2).version }}"
+    - name: Check result 21
+      run: |
+        echo "${{ fromJson(steps.set_var.outputs.packageJson1).version }}"
+        echo "${{ fromJson(steps.set_var.outputs.packageJson2).version }}"
