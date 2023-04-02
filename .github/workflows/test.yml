@@ -117,6 +117,8 @@ jobs:
         echo packageJson1 = ${{ env.packageJson1 }}
         echo packageJson2 = ${{ env.packageJson2 }}
         echo packageJson3 = ${{ env.packageJson3 }}
+        echo "VER_1C_fromJSON4=${{ fromJson(steps.set_var2.outputs.packageJson3).version }}" >> $GITHUB_ENV
+        echo "PROD_VER_fromConfiguration2=${{ fromJson(steps.set_var2.outputs.packageJson3).scripts.format }}" >> $GITHUB_ENV
     
     - name: Check result 22
       run: |
@@ -124,6 +126,12 @@ jobs:
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
     
     - name: Check result 23
+      run: |
+        echo VER_1C_fromJSON4 = ${{ env.VER_1C_fromJSON4 }}
+        echo PROD_VER_fromConfiguration2 = ${{ env.PROD_VER_fromConfiguration2 }}
+        
+    #  doesn't work !
+    - name: Check result 24
       run: |
         echo version = "${{ fromJson(env.packageJson3).version }}"
         echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
