@@ -52,7 +52,8 @@ jobs:
       run: |
         echo ${{ steps.version.outputs.prop }}
         echo "VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
-        echo ${{ steps.version.outputs.prop }} >> $VER_1C_fromJSON3
+      env:
+        VER_1C_fromJSON3: ${{ steps.version.outputs.prop }}
     
     #- name: Check result 15
     #  run: |
