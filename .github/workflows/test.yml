@@ -44,7 +44,7 @@ jobs:
     - name: Check result 04
       run: |
         echo ${{ steps.version.outputs.prop }}
-        echo "::set-output name=VER_1C_fromJSON::${{ steps.version.outputs.prop }}
+        echo "::set-output name=VER_1C_fromJSON::${{ steps.version.outputs.prop }}"
         echo.
         echo ${{ steps.get_json_property.outputs.prop }}
         echo ${{ steps.get_json_property.outputs.propStr }}
