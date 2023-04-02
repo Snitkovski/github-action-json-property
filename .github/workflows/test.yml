@@ -108,9 +108,16 @@ jobs:
     
     - name: Check result 21
       run: |
-        echo version = "${{ fromJson(steps.set_var1.outputs.packageJson1).version }}"
-        echo scripts.format = "${{ fromJson(steps.set_var1.outputs.packageJson1).scripts.format }}"
+        echo packageJson1 = ${{ env.packageJson1 }}
+        echo packageJson2 = ${{ env.packageJson2 }}
+        echo packageJson3 = ${{ env.packageJson3 }}
+    
+    - name: Check result 22
+      run: |
         echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
+    
+    - name: Check result 23
+      run: |
         echo version = "${{ fromJson(packageJson3).version }}"
         echo scripts.format = "${{ fromJson(packageJson3).scripts.format }}"
