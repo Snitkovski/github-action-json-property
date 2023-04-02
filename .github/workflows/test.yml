@@ -110,6 +110,20 @@ jobs:
         content="${content//$'\r'/'%0D'}"
         # end of optional handling for multi line json
         echo "::set-output name=packageJson2::$content"
+    
+    - name: get json file v3
+      id: set_var3
+        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
+        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
+      run: |
+        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
+        ls -la ${{ github.WORKSPACE }}
+        content=`cat package.json`
+        # the following lines are only required for multi line json
+        content="${content//'%'/'%25'}"
+        content="${content//$'\n'/'%0A'}"
+        content="${content//$'\r'/'%0D'}"
+        # end of optional handling for multi line json        
         echo "packageJson3=$content" >> $GITHUB_ENV
     
     - name: Check result 21
@@ -117,22 +131,29 @@ jobs:
         echo packageJson1 = ${{ env.packageJson1 }}
         echo packageJson2 = ${{ env.packageJson2 }}
         echo packageJson3 = ${{ env.packageJson3 }}
-        echo
-        echo "VER_1C_fromJSON4=${{ fromJson(steps.set_var2.outputs.packageJson2).version }}" >> $GITHUB_ENV
-        echo "PROD_VER_fromConfiguration2=${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}" >> $GITHUB_ENV
     
     - name: Check result 22
       run: |
-        echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
-        echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
+        echo "VER_1C_fromJSON4=${{ fromJson(steps.set_var2.outputs.packageJson2).version }}" >> $GITHUB_ENV
+        echo "PROD_VER_fromConfiguration4=${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}" >> $GITHUB_ENV
     
     - name: Check result 23
       run: |
         echo VER_1C_fromJSON4 = ${{ env.VER_1C_fromJSON4 }}
-        echo PROD_VER_fromConfiguration2 = ${{ env.PROD_VER_fromConfiguration2 }}
+        echo PROD_VER_fromConfiguration4 = ${{ env.PROD_VER_fromConfiguration4 }}
+        
+    - name: Check result 24
+      run: |
+        echo "VER_1C_fromJSON5=${{ fromJson(steps.set_var3.outputs.packageJson3).version }}" >> $GITHUB_ENV
+        echo "PROD_VER_fromConfiguration5=${{ fromJson(steps.set_var3.outputs.packageJson3).scripts.format }}" >> $GITHUB_ENV
+    
+    - name: Check result 25
+      run: |
+        echo VER_1C_fromJSON5 = ${{ env.VER_1C_fromJSON5 }}
+        echo PROD_VER_fromConfiguration5 = ${{ env.PROD_VER_fromConfiguration5 }}
         
     #  doesn't work !
-    - name: Check result 24
+    - name: Check result 26
       run: |
         echo version = "${{ fromJson(env.packageJson3).version }}"
         echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
