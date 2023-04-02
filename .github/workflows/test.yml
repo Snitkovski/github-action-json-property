@@ -123,7 +123,7 @@ jobs:
         echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
     
-    # - name: Check result 23
-    #   run: |
-        #echo version = "${{ fromJson(packageJson3).version }}"
-        #echo scripts.format = "${{ fromJson(packageJson3).scripts.format }}"
+    - name: Check result 23
+      run: |
+        echo version = "${{ fromJson(env.packageJson3).version }}"
+        echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
