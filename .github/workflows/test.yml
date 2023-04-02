@@ -1,30 +1,36 @@
 name: "test"
+
 on: # rebuild any PRs and main branch changes
-  pull_request:
+  # Triggers the workflow on push or pull request events, but only for the master branch
   push:
-    branches:
-      - master
-      - 'releases/*'
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching for Releases: v*
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: get repository
+      uses: actions/checkout@v1
+
     - name: get version
       id: version
       uses: ./
       with: 
         path: 'package.json'
-        prop_path: 'version'
-    - run: echo ${{steps.version.outputs.prop}}        
+        prop_path: 'version'                        #    "version": "0.2.0",
+    - run: echo ${{ steps.version.outputs.prop }}
         
     - name: get nested json property
       id: get_json_property
       uses: ./
       with: 
         path: 'package.json'
-        prop_path: 'scripts.format'
-
-    - run: echo ${{steps.get_json_property.outputs.prop}}     
-    - run: echo ${{steps.get_json_property.outputs.propStr}}     
+        prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
+    - run: echo ${{ steps.get_json_property.outputs.prop }}
+    - run: echo ${{ steps.get_json_property.outputs.propStr }}
