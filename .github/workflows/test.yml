@@ -57,8 +57,8 @@ jobs:
     
     - name: Check result 16
       run: |
-        echo VER_1C_fromJSON = ${{ VER_1C_fromJSON }}
-        echo PROD_VER_fromConfiguration = ${{ PROD_VER_fromConfiguration }}
+        echo VER_1C_fromJSON = ${{ env.VER_1C_fromJSON }}
+        echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
   testJob02:
     runs-on: ubuntu-latest
