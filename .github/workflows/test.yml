@@ -45,19 +45,22 @@ jobs:
     - name: Check result 14
       run: |
         echo ${{ steps.version.outputs.prop }}
-        echo "::set-output name=VER_1C_fromJSON::${{ steps.version.outputs.prop }}"
-        echo.
+        echo "::set-output name=VER_1C_fromJSON1::${{ steps.version.outputs.prop }}"
+        echo "::VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
+        echo
         echo ${{ steps.get_json_property.outputs.prop }}
         echo ${{ steps.get_json_property.outputs.propStr }}
     
     - name: Check result 15
       run: |
-        echo grep "<version>" src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
-        echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" PD_ro_devel\src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+        echo grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+        grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+        echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
     - name: Check result 16
       run: |
-        echo VER_1C_fromJSON = ${{ env.VER_1C_fromJSON }}
+        echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
+        echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
   testJob02:
@@ -67,14 +70,16 @@ jobs:
       - name: get json file
         id: set_var
         run: |
-          content=`cat ./package.json`
+          content=`cat package.json`
           # the following lines are only required for multi line json
           #content="${content//'%'/'%25'}"
           #content="${content//$'\n'/'%0A'}"
           #content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
+          echo "::set-output name=packageJson1::$content"
+          echo "::packageJson2=$content"
     
       - name: Check result 21
         run: |
-          echo "${{ fromJson(steps.set_var.outputs.packageJson).version }}"
+          echo "${{ fromJson(steps.set_var.outputs.packageJson1).version }}"
+          echo "${{ fromJson(steps.set_var.outputs.packageJson2).version }}"
