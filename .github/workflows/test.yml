@@ -112,5 +112,5 @@ jobs:
         echo scripts.format = "${{ fromJson(steps.set_var1.outputs.packageJson1).scripts.format }}"
         echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
-        echo version = "${{ fromJson(${{ env.packageJson3 }}).version }}"
+        echo version = "${{ fromJson(env.packageJson3).version }}"
         echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
