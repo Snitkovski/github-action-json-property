@@ -26,7 +26,7 @@ jobs:
         path: 'package.json'
         prop_path: 'version'                        #  "version": "0.2.0",
     
-    - name: Check result 01
+    - name: Check result 11
       run: echo ${{ steps.version.outputs.prop }}
         
     - name: get nested json property
@@ -36,24 +36,26 @@ jobs:
         path: 'package.json'
         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
     
-    - name: Check result 02
+    - name: Check result 12
       run: echo ${{ steps.get_json_property.outputs.prop }}
     
-    - name: Check result 03
+    - name: Check result 13
       run: echo ${{ steps.get_json_property.outputs.propStr }}
     
-    - name: Check result 04
+    - name: Check result 14
       run: |
         echo ${{ steps.version.outputs.prop }}
         echo "::set-output name=VER_1C_fromJSON::${{ steps.version.outputs.prop }}"
         echo.
         echo ${{ steps.get_json_property.outputs.prop }}
         echo ${{ steps.get_json_property.outputs.propStr }}
-        echo.
+    
+    - name: Check result 15
+      run: |
         echo grep "<version>" src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
         echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" PD_ro_devel\src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
-    - name: Check result 05
+    - name: Check result 16
       run: |
         echo VER_1C_fromJSON = ${{ VER_1C_fromJSON }}
         echo PROD_VER_fromConfiguration = ${{ PROD_VER_fromConfiguration }}
@@ -66,10 +68,13 @@ jobs:
         id: set_var
         run: |
           content=`cat ./package.json`
-          # the following lines are only required for multi line json          content="${content//'%'/'%25'}"          content="${content//$'\n'/'%0A'}"          content="${content//$'\r'/'%0D'}"
+          # the following lines are only required for multi line json
+          #content="${content//'%'/'%25'}"
+          #content="${content//$'\n'/'%0A'}"
+          #content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
     
-      - name: Check result 06
+      - name: Check result 21
         run: |
           echo "${{ fromJson(steps.set_var.outputs.packageJson).version }}"
