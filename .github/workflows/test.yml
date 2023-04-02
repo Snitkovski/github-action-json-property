@@ -119,5 +119,6 @@ jobs:
     
     - name: Check result 23
       run: |
-        echo version = "${{ fromJson(packageJson3).version }}"
-        echo scripts.format = "${{ fromJson(packageJson3).scripts.format }}"
+        echo
+        #echo version = "${{ fromJson(packageJson3).version }}"
+        #echo scripts.format = "${{ fromJson(packageJson3).scripts.format }}"
