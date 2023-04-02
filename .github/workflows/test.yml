@@ -20,7 +20,7 @@ jobs:
       uses: actions/checkout@master                 #  v1
 
     - name: get version
-      id: version
+      id: get_version
       uses: ./
       with: 
         path: 'package.json'
@@ -28,7 +28,7 @@ jobs:
     
     - name: Check result 11
       run: |
-        echo ${{ steps.version.outputs.prop }}
+        echo ${{ steps.get_version.outputs.prop }}
         echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
         
     - name: get nested json property
@@ -45,15 +45,15 @@ jobs:
     
     - name: Check result 13
       run: |
-        echo ${{ steps.version.outputs.prop }}
-        echo "::set-output name=VER_1C_fromJSON1::${{ steps.version.outputs.prop }}"
+        echo ${{ steps.get_version.outputs.prop }}
+        echo "::set-output name=VER_1C_fromJSON1::${{ steps.get_version.outputs.prop }}"
     
     - name: Check result 14
       run: |
-        echo ${{ steps.version.outputs.prop }}
-        echo "VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
+        echo ${{ steps.get_version.outputs.prop }}
+        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_OUTPUT
       env:
-        VER_1C_fromJSON3: ${{ steps.version.outputs.prop }}
+        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
     #- name: Check result 15
     #  run: |
@@ -63,10 +63,12 @@ jobs:
     
     - name: Check result 16
       run: |
+        echo VER_1C_fromJSON1 = $VER_1C_fromJSON1
         echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON1 = ${{ steps.version.outputs.VER_1C_fromJSON1 }}
+        echo VER_1C_fromJSON1 = ${{ steps.get_version.outputs.VER_1C_fromJSON1 }}
+        echo VER_1C_fromJSON2 = $VER_1C_fromJSON2
         echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
-        echo VER_1C_fromJSON2 = ${{ steps.version.outputs.VER_1C_fromJSON2 }}
+        echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo VER_1C_fromJSON3 = ${{ env.VER_1C_fromJSON3 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
