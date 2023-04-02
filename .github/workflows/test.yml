@@ -16,15 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: get repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@master                 #  v1
 
     - name: get version
       id: version
       uses: ./
       with: 
         path: 'package.json'
-        prop_path: 'version'                        #    "version": "0.2.0",
-    - run: echo ${{ steps.version.outputs.prop }}
+        prop_path: 'version'                        #  "version": "0.2.0",
+    
+    - name: Check result 01
+      run: echo ${{ steps.version.outputs.prop }}
         
     - name: get nested json property
       id: get_json_property
@@ -32,5 +34,25 @@ jobs:
       with: 
         path: 'package.json'
         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
-    - run: echo ${{ steps.get_json_property.outputs.prop }}
-    - run: echo ${{ steps.get_json_property.outputs.propStr }}
+    
+    - name: Check result 02
+      run: echo ${{ steps.get_json_property.outputs.prop }}
+    
+    - name: Check result 03
+      run: echo ${{ steps.get_json_property.outputs.propStr }}
+    
+    - name: Check result 04
+      run: |
+        echo ${{ steps.version.outputs.prop }}
+        echo "::set-output name=VER_1C_fromJSON::${{ steps.version.outputs.prop }}
+        echo.
+        echo ${{ steps.get_json_property.outputs.prop }}
+        echo ${{ steps.get_json_property.outputs.propStr }}
+        echo.
+        echo grep "<version>" src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+        echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" PD_ro_devel\src\Configuration\Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+    
+    - name: Check result 05
+      run: |
+        echo VER_1C_fromJSON = ${{ VER_1C_fromJSON }}
+        echo PROD_VER_fromConfiguration = ${{ PROD_VER_fromConfiguration }}
