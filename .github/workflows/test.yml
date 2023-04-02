@@ -103,15 +103,14 @@ jobs:
         content="${content//$'\n'/'%0A'}"
         content="${content//$'\r'/'%0D'}"
         # end of optional handling for multi line json
-        #echo "packageJson2=$content" >> $GITHUB_OUTPUT
         echo "::set-output name=packageJson2::$content"
+        echo "packageJson3=$content" >> $GITHUB_ENV
     
     - name: Check result 21
       run: |
         echo version = "${{ fromJson(steps.set_var1.outputs.packageJson1).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var1.outputs.packageJson1).scripts.format }}"
-
-    - name: Check result 22
-      run: |
         echo version = "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
         echo scripts.format = "${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}"
+        echo version = "${{ fromJson(${{ env.packageJson3 }}).version }}"
+        echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
