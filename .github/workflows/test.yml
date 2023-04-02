@@ -27,7 +27,9 @@ jobs:
         prop_path: 'version'                        #  "version": "0.2.0",
     
     - name: Check result 11
-      run: echo ${{ steps.version.outputs.prop }}
+      run: |
+        echo ${{ steps.version.outputs.prop }}
+        echo ${{ env.GITHUB_WORKSPACE }}
         
     - name: get nested json property
       id: get_json_property
@@ -51,11 +53,11 @@ jobs:
         echo ${{ steps.get_json_property.outputs.prop }}
         echo ${{ steps.get_json_property.outputs.propStr }}
     
-    - name: Check result 15
-      run: |
-        echo grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
-        grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
-        echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+    #- name: Check result 15
+    #  run: |
+    #    echo grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+    #    grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
+    #    echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
     - name: Check result 16
       run: |
@@ -70,6 +72,7 @@ jobs:
       - name: get json file
         id: set_var
         run: |
+          ls -la
           content=`cat package.json`
           # the following lines are only required for multi line json
           #content="${content//'%'/'%25'}"
