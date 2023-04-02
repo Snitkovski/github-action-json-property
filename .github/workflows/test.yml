@@ -77,9 +77,9 @@ jobs:
         ls -la ${{ github.WORKSPACE }}
         content=`cat package.json`
         # the following lines are only required for multi line json
-        #content="${content//'%'/'%25'}"
-        #content="${content//$'\n'/'%0A'}"
-        #content="${content//$'\r'/'%0D'}"
+        content="${content//'%'/'%25'}"
+        content="${content//$'\n'/'%0A'}"
+        content="${content//$'\r'/'%0D'}"
         # end of optional handling for multi line json
         echo "::set-output name=packageJson1::$content"
     
@@ -99,4 +99,7 @@ jobs:
     - name: Check result 21
       run: |
         echo "${{ fromJson(steps.set_var1.outputs.packageJson1).version }}"
+
+    - name: Check result 22
+      run: |
         echo "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
