@@ -12,8 +12,9 @@ on: # rebuild any PRs and main branch changes
 
 
 jobs:
-  test:
+  testJob01:
     runs-on: ubuntu-latest
+
     steps:
     - name: get repository
       uses: actions/checkout@master                 #  v1
@@ -56,3 +57,19 @@ jobs:
       run: |
         echo VER_1C_fromJSON = ${{ VER_1C_fromJSON }}
         echo PROD_VER_fromConfiguration = ${{ PROD_VER_fromConfiguration }}
+
+  testJob02:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: get json file
+        id: set_var
+        run: |
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json          content="${content//'%'/'%25'}"          content="${content//$'\n'/'%0A'}"          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+    
+      - name: Check result 06
+        run: |
+          echo "${{ fromJson(steps.set_var.outputs.packageJson).version }}"
