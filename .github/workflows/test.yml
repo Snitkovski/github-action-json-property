@@ -29,7 +29,7 @@ jobs:
     - name: Check result 11
       run: |
         echo ${{ steps.version.outputs.prop }}
-        echo ${{ env.GITHUB_WORKSPACE }}
+        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
         
     - name: get nested json property
       id: get_json_property
@@ -39,19 +39,19 @@ jobs:
         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
     
     - name: Check result 12
-      run: echo ${{ steps.get_json_property.outputs.prop }}
+      run: |
+        echo ${{ steps.get_json_property.outputs.prop }}
+        echo ${{ steps.get_json_property.outputs.propStr }}
     
     - name: Check result 13
-      run: echo ${{ steps.get_json_property.outputs.propStr }}
+      run: |
+        echo ${{ steps.version.outputs.prop }}
+        echo "::set-output name=VER_1C_fromJSON1::${{ steps.version.outputs.prop }}"
     
     - name: Check result 14
       run: |
         echo ${{ steps.version.outputs.prop }}
-        echo "::set-output name=VER_1C_fromJSON1::${{ steps.version.outputs.prop }}"
-        echo "::VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
-        echo
-        echo ${{ steps.get_json_property.outputs.prop }}
-        echo ${{ steps.get_json_property.outputs.propStr }}
+        echo "VER_1C_fromJSON2=${{ steps.version.outputs.prop }}" >> $GITHUB_OUTPUT
     
     #- name: Check result 15
     #  run: |
@@ -72,7 +72,13 @@ jobs:
       - name: get json file
         id: set_var
         run: |
-          ls -la
+          ls -la ../
+          echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
+          ls -la $GITHUB_WORKSPACE
+          echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
+          ls -la ${{ env.GITHUB_WORKSPACE }}
+          echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
+          ls -la ${{ github.WORKSPACE }}
           content=`cat package.json`
           # the following lines are only required for multi line json
           #content="${content//'%'/'%25'}"
