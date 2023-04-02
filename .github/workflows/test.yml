@@ -70,15 +70,10 @@ jobs:
         echo VER_1C_fromJSON3 = ${{ env.VER_1C_fromJSON3 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
-    - name: get json file
-      id: set_var
+    - name: get json file v1
+      id: set_var1
       run: |
-        ls -la ../
-        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
-        ls -la $GITHUB_WORKSPACE
-        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
-        ls -la ${{ env.GITHUB_WORKSPACE }}
-        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE                     #  it works
         ls -la ${{ github.WORKSPACE }}
         content=`cat package.json`
         # the following lines are only required for multi line json
@@ -87,9 +82,21 @@ jobs:
         #content="${content//$'\r'/'%0D'}"
         # end of optional handling for multi line json
         echo "::set-output name=packageJson1::$content"
-        echo "::packageJson2=$content"
+    
+    - name: get json file v2
+      id: set_var2
+      run: |
+        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
+        ls -la ${{ github.WORKSPACE }}
+        content=`cat package.json`
+        # the following lines are only required for multi line json
+        content="${content//'%'/'%25'}"
+        content="${content//$'\n'/'%0A'}"
+        content="${content//$'\r'/'%0D'}"
+        # end of optional handling for multi line json
+        echo "packageJson2=$content" >> $GITHUB_OUTPUT
     
     - name: Check result 21
       run: |
-        echo "${{ fromJson(steps.set_var.outputs.packageJson1).version }}"
-        echo "${{ fromJson(steps.set_var.outputs.packageJson2).version }}"
+        echo "${{ fromJson(steps.set_var1.outputs.packageJson1).version }}"
+        echo "${{ fromJson(steps.set_var2.outputs.packageJson2).version }}"
