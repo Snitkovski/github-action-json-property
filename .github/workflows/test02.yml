@@ -99,11 +99,16 @@ jobs:
     - name: Check result 11
       run: |
         echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
+        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
+        echo
         echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}
         echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}
         echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.prop }}
         echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.prop }}
-        echo VER_1C_fromJSON    = ${{ steps.get_ver1c.outputs.prop }}
+        echo
+        echo VER_1C_fromJSON1    = ${{ steps.get_ver1c.outputs.prop }}
+        echo VER_1C_fromJSON2    = ${{ steps.get_version1c.outputs.prop }}
+        echo
         echo PROD_VER_fromConfiguration = ${{ steps.get_base_path.outputs.prop }}
         
     
@@ -119,7 +124,8 @@ jobs:
         echo "REPO_NAME_fromJSON=${{ steps.get_repo_name.outputs.prop }}" >> $GITHUB_ENV
         echo "PROJ_NAME_fromJSON=${{ steps.get_proj_name.outputs.prop }}" >> $GITHUB_ENV
         echo "PROD_NAME_fromJSON=${{ steps.get_prod_name.outputs.prop }}" >> $GITHUB_ENV
-        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV    #  it works
+        echo "VER_1C_fromJSON1=${{ steps.get_ver1c.outputs.prop }}" >> $GITHUB_ENV    #  it works
+        echo "VER_1C_fromJSON2=${{ steps.get_version1c.outputs.prop }}" >> $GITHUB_ENV    #  it works
 #      env:
 #        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
@@ -136,23 +142,27 @@ jobs:
       run: |
         echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
         echo BASE_PATH_fromJSON = ${{ env.BASE_PATH_fromJSON }}
-        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.BASE_PATH_fromJSON }}
+        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.BASE_PATH_fromJSON }}       #  doesn't work
         echo
         echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
         echo REPO_NAME_fromJSON = ${{ env.REPO_NAME_fromJSON }}
-        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.REPO_NAME_fromJSON }}
+        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.REPO_NAME_fromJSON }}       #  doesn't work
         echo
         echo PROJ_NAME_fromJSON = $PROJ_NAME_fromJSON
         echo PROJ_NAME_fromJSON = ${{ env.PROJ_NAME_fromJSON }}
-        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.PROJ_NAME_fromJSON }}
+        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.PROJ_NAME_fromJSON }}       #  doesn't work
         echo
         echo PROD_NAME_fromJSON = $PROD_NAME_fromJSON
         echo PROD_NAME_fromJSON = ${{ env.PROD_NAME_fromJSON }}
-        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.PROD_NAME_fromJSON }}
+        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.PROD_NAME_fromJSON }}       #  doesn't work
         echo
-        echo VER_1C_fromJSON = $VER_1C_fromJSON
-        echo VER_1C_fromJSON = ${{ env.VER_1C_fromJSON }}
-        echo VER_1C_fromJSON = ${{ steps.get_version.outputs.VER_1C_fromJSON }}
+        echo VER_1C_fromJSON1 = $VER_1C_fromJSON1
+        echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
+        echo VER_1C_fromJSON1 = ${{ steps.get_version.outputs.VER_1C_fromJSON1 }}
+        echo
+        echo VER_1C_fromJSON2 = $VER_1C_fromJSON2
+        echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
+        echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
