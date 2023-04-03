@@ -6,17 +6,23 @@ on: # rebuild any PRs and main branch changes
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching for Releases: v*
-
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+      
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 
-env:
-  VER_1C_fromJSON1:
-  VER_1C_fromJSON2:
-  VER_1C_fromJSON3:
-  PROD_VER_fromConfiguration:
-  
+# env:
+#   BASE_PATH_fromJSON:
+#   REPO_NAME_fromJSON:
+#   PROJ_NAME_fromJSON:
+#   PROD_NAME_fromJSON:
+#   VER_1C_fromJSON1:
+#   VER_1C_fromJSON2:
+#   VER_1C_fromJSON3:
+#   PROD_VER_fromConfiguration:
 
 jobs:
   testJob01:
@@ -26,42 +32,75 @@ jobs:
     - name: get repository
       uses: actions/checkout@master                 #  v1
 
-    - name: get version
-      id: get_version
+    - name: Get VER_1C_fromJSON
+      id: get_ver1c
       uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
       with: 
-        path: 'package.json'
-        prop_path: 'version'                        #  "version": "0.2.0",
+        path: 'build_config.json'
+        prop_path: 'ver_1с'                        #  "version": "0.2.0",
     
-    - name: Check result 11
-      run: |
-        echo ${{ steps.get_version.outputs.prop }}
-        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
-        
-    - name: get nested json property
-      id: get_json_property
+    - name: Get Base_Path_fromJSON
+      id: get_base_path
       uses: ./
       with: 
-        path: 'package.json'
-        prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
+        path: 'build_config.json'
+        prop_path: 'base_path'
     
-    - name: Check result 12
-      run: |
-        echo ${{ steps.get_json_property.outputs.prop }}
-        echo ${{ steps.get_json_property.outputs.propStr }}
+    - name: Get Repo_Name_fromJSON
+      id: get_repo_name
+      uses: ./
+      with: 
+        path: 'build_config.json'
+        prop_path: 'repo_name'
     
-    - name: Check result 13
+    - name: Get Proj_Name_fromJSON
+      id: get_proj_name
+      uses: ./
+      with: 
+        path: 'build_config.json'
+        prop_path: 'proj_name'
+    
+    - name: Get Prod_Name_fromJSON
+      id: get_prod_name
+      uses: ./
+      with: 
+        path: 'build_config.json'
+        prop_path: 'prod_name'
+    
+#     - name: get nested json property
+#       id: get_json_property
+#       uses: ./
+#       with: 
+#         path: 'package.json'
+#         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
+    
+        # echo ${{ steps.get_json_property.outputs.propStr }}
+    - name: Check result 11
       run: |
-        echo ${{ steps.get_version.outputs.prop }}
-        echo "::set-output name=VER_1C_fromJSON1::${{ steps.get_version.outputs.prop }}"
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
+        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}
+        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}
+        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.prop }}
+        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.prop }}
+        echo VER_1C_fromJSON    = ${{ steps.get_ver1c.outputs.prop }}
+        echo PROD_VER_fromConfiguration = ${{ steps.get_base_path.outputs.prop }}
+        
+    
+#    - name: Check result 13
+#      run: |
+#        echo ${{ steps.get_version.outputs.prop }}
+#        echo "::set-output name=VER_1C_fromJSON1::${{ steps.get_version.outputs.prop }}"
     
     - name: Check result 14
-        # echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV    #  it works
+        # echo ${{ steps.get_version.outputs.prop }}
       run: |
-        echo ${{ steps.get_version.outputs.prop }}
-        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV
-      env:
-        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
+        echo "BASE_PATH_fromJSON=${{ steps.get_base_path.outputs.prop }}" >> $GITHUB_ENV
+        echo "REPO_NAME_fromJSON=${{ steps.get_repo_name.outputs.prop }}" >> $GITHUB_ENV
+        echo "PROJ_NAME_fromJSON=${{ steps.get_proj_name.outputs.prop }}" >> $GITHUB_ENV
+        echo "PROD_NAME_fromJSON=${{ steps.get_prod_name.outputs.prop }}" >> $GITHUB_ENV
+        echo "VER_1C_fromJSON2=${{ steps.get_version.outputs.prop }}" >> $GITHUB_ENV    #  it works
+#      env:
+#        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
     #- name: Check result 15
     #  run: |
@@ -69,91 +108,30 @@ jobs:
     #    grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     #    echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
-    - name: Check result 16
         # echo VER_1C_fromJSON2 = $VER_1C_fromJSON2                                       #  it works in LINUX
         # echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}                             #  it works
         # echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}       #  doesn't work
+    - name: Check result 16
       run: |
-        echo VER_1C_fromJSON1 = $VER_1C_fromJSON1
-        echo VER_1C_fromJSON1 = ${{ env.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON1 = ${{ steps.get_version.outputs.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON2 = $VER_1C_fromJSON2
-        echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}
-        echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
-        echo VER_1C_fromJSON3 = ${{ env.VER_1C_fromJSON3 }}
+        echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
+        echo BASE_PATH_fromJSON = ${{ env.BASE_PATH_fromJSON }}
+        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.BASE_PATH_fromJSON }}
+        echo
+        echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
+        echo REPO_NAME_fromJSON = ${{ env.REPO_NAME_fromJSON }}
+        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.REPO_NAME_fromJSON }}
+        echo
+        echo PROJ_NAME_fromJSON = $PROJ_NAME_fromJSON
+        echo PROJ_NAME_fromJSON = ${{ env.PROJ_NAME_fromJSON }}
+        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.PROJ_NAME_fromJSON }}
+        echo
+        echo PROD_NAME_fromJSON = $PROD_NAME_fromJSON
+        echo PROD_NAME_fromJSON = ${{ env.PROD_NAME_fromJSON }}
+        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.PROD_NAME_fromJSON }}
+        echo
+        echo VER_1C_fromJSON = $VER_1C_fromJSON
+        echo VER_1C_fromJSON = ${{ env.VER_1C_fromJSON }}
+        echo VER_1C_fromJSON = ${{ steps.get_version.outputs.VER_1C_fromJSON }}
+        echo
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
 
-    - name: get json file v1
-      id: set_var1
-        # echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE                     #  it works
-      run: |
-        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
-        ls -la ${{ github.WORKSPACE }}
-        content=`cat package.json`
-        # the following lines are only required for multi line json
-        content="${content//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        # end of optional handling for multi line json
-        echo "::set-output name=packageJson1::$content"
-    
-    - name: get json file v2
-      id: set_var2
-        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
-      run: |
-        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
-        ls -la ${{ github.WORKSPACE }}
-        content=`cat package.json`
-        # the following lines are only required for multi line json
-        content="${content//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        # end of optional handling for multi line json
-        echo "::set-output name=packageJson2::$content"
-    
-    - name: get json file v3
-      id: set_var3
-        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
-        # echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}               #  it works
-      run: |
-        echo GITHUB_WORKSPACE = ${{ github.WORKSPACE }}
-        ls -la ${{ github.WORKSPACE }}
-        content=`cat package.json`
-        # the following lines are only required for multi line json
-        content="${content//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        # end of optional handling for multi line json        
-        echo "packageJson3=$content" >> $GITHUB_ENV
-    
-    - name: Check result 21
-      run: |
-        echo packageJson1 = ${{ env.packageJson1 }}
-        echo packageJson2 = ${{ env.packageJson2 }}
-        echo packageJson3 = ${{ env.packageJson3 }}
-    
-    - name: Check result 22
-      run: |
-        echo "VER_1C_fromJSON4=${{ fromJson(steps.set_var2.outputs.packageJson2).version }}" >> $GITHUB_ENV
-        echo "PROD_VER_fromConfiguration4=${{ fromJson(steps.set_var2.outputs.packageJson2).scripts.format }}" >> $GITHUB_ENV
-    
-    - name: Check result 23
-      run: |
-        echo VER_1C_fromJSON4 = ${{ env.VER_1C_fromJSON4 }}
-        echo PROD_VER_fromConfiguration4 = ${{ env.PROD_VER_fromConfiguration4 }}
-        
-    - name: Check result 24
-      run: |
-        echo "VER_1C_fromJSON5=${{ fromJson(steps.set_var3.outputs.packageJson3).version }}" >> $GITHUB_ENV
-        echo "PROD_VER_fromConfiguration5=${{ fromJson(steps.set_var3.outputs.packageJson3).scripts.format }}" >> $GITHUB_ENV
-    
-    - name: Check result 25
-      run: |
-        echo VER_1C_fromJSON5 = ${{ env.VER_1C_fromJSON5 }}
-        echo PROD_VER_fromConfiguration5 = ${{ env.PROD_VER_fromConfiguration5 }}
-        
-    #  doesn't work !
-    - name: Check result 26
-      run: |
-        echo version = "${{ fromJson(env.packageJson3).version }}"
-        echo scripts.format = "${{ fromJson(env.packageJson3).scripts.format }}"
