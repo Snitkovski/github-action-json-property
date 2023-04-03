@@ -44,7 +44,7 @@ jobs:
       uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'package.json'
-        prop_path: 'ver_1с'                        #  "version": "0.2.0",
+        prop_path: 'ver_onec'                        #  "version": "0.2.0",
 
     - name: Get Base_Path_fromJSON
       id: get_base_path
@@ -79,14 +79,14 @@ jobs:
       uses: ./
       with: 
         path: 'build_config.json'
-        prop_path: 'ver_1с'
+        prop_path: 'ver_onec'
 
     - name: Get VER_1C_fromJSON
       id: get_ver1c
       uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
-        prop_path: 'ver_1с'                        #  "version": "0.2.0",
+        prop_path: 'ver_onec'                        #  "version": "0.2.0",
     
 #     - name: get nested json property
 #       id: get_json_property
