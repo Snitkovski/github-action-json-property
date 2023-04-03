@@ -39,20 +39,13 @@ jobs:
         path: 'package.json'
         prop_path: 'version'                        #  "version": "0.2.0",
 
-    - name: get version1c
-      id: get_version1c
-      uses: ./
+    - name: get ver
+      id: get_ver
+      uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
       with: 
-        path: 'build_config.json'
-        prop_path: 'ver_1с'
-
-    - name: Get VER_1C_fromJSON
-      id: get_ver1c
-      uses: notiz-dev/github-action-json-property@release
-      with: 
-        path: 'build_config.json'
+        path: 'package.json'
         prop_path: 'ver_1с'                        #  "version": "0.2.0",
-    
+
     - name: Get Base_Path_fromJSON
       id: get_base_path
       uses: notiz-dev/github-action-json-property@release
@@ -80,6 +73,20 @@ jobs:
       with: 
         path: 'build_config.json'
         prop_path: 'prod_name'
+    
+    - name: get version1c
+      id: get_version1c
+      uses: ./
+      with: 
+        path: 'build_config.json'
+        prop_path: 'ver_1с'
+
+    - name: Get VER_1C_fromJSON
+      id: get_ver1c
+      uses: notiz-dev/github-action-json-property@release
+      with: 
+        path: 'build_config.json'
+        prop_path: 'ver_1с'                        #  "version": "0.2.0",
     
 #     - name: get nested json property
 #       id: get_json_property
