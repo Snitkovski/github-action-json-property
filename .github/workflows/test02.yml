@@ -32,6 +32,13 @@ jobs:
     - name: get repository
       uses: actions/checkout@master                 #  v1
 
+    - name: get version
+      id: get_version
+      uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
+      with: 
+        path: 'package.json'
+        prop_path: 'version'                        #  "version": "0.2.0",
+
     - name: Get VER_1C_fromJSON
       id: get_ver1c
       uses: notiz-dev/github-action-json-property@release
