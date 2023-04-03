@@ -39,6 +39,13 @@ jobs:
         path: 'package.json'
         prop_path: 'version'                        #  "version": "0.2.0",
 
+    - name: get version1c
+      id: get_version1c
+      uses: ./
+      with: 
+        path: 'build_config.json'
+        prop_path: 'ver_1с'
+
     - name: Get VER_1C_fromJSON
       id: get_ver1c
       uses: notiz-dev/github-action-json-property@release

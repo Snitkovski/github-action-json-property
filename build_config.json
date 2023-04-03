@@ -1,7 +1,41 @@
 {
-    "base_path": "./PD_ro_devel",
-    "repo_name": "PD_ro_devel",
-    "proj_name": "PD_ro_devel",
-    "prod_name": "PayDesk_ro",
-    "ver_1c": "8.3.18.1959"
+  "base_path": "./PD_ro_devel",
+  "repo_name": "PD_ro_devel",
+  "proj_name": "PD_ro_devel",
+  "prod_name": "PayDesk_ro",
+  "ver_1c": "8.3.18.1959",
+  "name": "get-json-property",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Simple GitHub Action to read a specified property from a JSON file.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc && npm run pack",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "pack": "ncc build --source-map --license licenses.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notiz-dev/github-action-template"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup",
+    "typescript",
+    "GitHub"
+  ],
+  "author": "notiz.dev",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@vercel/ncc": "^0.34.0",
+    "prettier": "^1.19.1",
+    "typescript": "4.8.4"
   }
+}
+  
