@@ -48,28 +48,28 @@ jobs:
 
     - name: Get Base_Path_fromJSON
       id: get_base_path
-      uses: notiz-dev/github-action-json-property@release
+      uses: ./
       with: 
         path: 'build_config.json'
         prop_path: 'base_path'
     
     - name: Get Repo_Name_fromJSON
       id: get_repo_name
-      uses: notiz-dev/github-action-json-property@release
+      uses: ./
       with: 
         path: 'build_config.json'
         prop_path: 'repo_name'
     
     - name: Get Proj_Name_fromJSON
       id: get_proj_name
-      uses: notiz-dev/github-action-json-property@release
+      uses: ./
       with: 
         path: 'build_config.json'
         prop_path: 'proj_name'
     
     - name: Get Prod_Name_fromJSON
       id: get_prod_name
-      uses: notiz-dev/github-action-json-property@release
+      uses: ./
       with: 
         path: 'build_config.json'
         prop_path: 'prod_name'
@@ -83,7 +83,7 @@ jobs:
 
     - name: Get VER_1C_fromJSON
       id: get_ver1c
-      uses: notiz-dev/github-action-json-property@release
+      uses: ./
       with: 
         path: 'build_config.json'
         prop_path: 'ver_onec'                        #  "version": "0.2.0",
