@@ -1,4 +1,4 @@
-name: "test"
+name: "test02"
 
 on: # rebuild any PRs and main branch changes
   # Triggers the workflow on push or pull request events, but only for the master branch
@@ -95,11 +95,12 @@ jobs:
 #         path: 'package.json'
 #         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
     
-        # echo ${{ steps.get_json_property.outputs.propStr }}
+
+        # echo ${{ steps.get_json_property.outputs.propStr }}             # as a String - in '...'
     - name: Check result 11
       run: |
-        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
-        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE                                                   #  it works
+        echo GITHUB_WORKSPACE = ${{ env.GITHUB_WORKSPACE }}                                         #  doesn't work
         echo
         echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}
         echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}
@@ -112,20 +113,14 @@ jobs:
         echo PROD_VER_fromConfiguration = ${{ steps.get_base_path.outputs.prop }}
         
     
-#    - name: Check result 13
-#      run: |
-#        echo ${{ steps.get_version.outputs.prop }}
-#        echo "::set-output name=VER_1C_fromJSON1::${{ steps.get_version.outputs.prop }}"
-    
-    - name: Check result 14
-        # echo ${{ steps.get_version.outputs.prop }}
+    - name: Assigning values from JSON to Variables
       run: |
         echo "BASE_PATH_fromJSON=${{ steps.get_base_path.outputs.prop }}" >> $GITHUB_ENV
         echo "REPO_NAME_fromJSON=${{ steps.get_repo_name.outputs.prop }}" >> $GITHUB_ENV
         echo "PROJ_NAME_fromJSON=${{ steps.get_proj_name.outputs.prop }}" >> $GITHUB_ENV
         echo "PROD_NAME_fromJSON=${{ steps.get_prod_name.outputs.prop }}" >> $GITHUB_ENV
-        echo "VER_1C_fromJSON1=${{ steps.get_ver1c.outputs.prop }}" >> $GITHUB_ENV    #  it works
-        echo "VER_1C_fromJSON2=${{ steps.get_version1c.outputs.prop }}" >> $GITHUB_ENV    #  it works
+        echo "VER_1C_fromJSON1=${{ steps.get_ver1c.outputs.prop }}" >> $GITHUB_ENV                      #  it works
+        echo "VER_1C_fromJSON2=${{ steps.get_version1c.outputs.prop }}" >> $GITHUB_ENV                  #  it works
 #      env:
 #        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
@@ -135,9 +130,7 @@ jobs:
     #    grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     #    echo "::set-output name=PROD_VER_fromConfiguration::$(grep "<version>" src/Configuration/Configuration.mdo | grep -oP "(?<version>)(\d+)\.(\d+)\.(\d+)\.(\d+)(?=</version>)")"
     
-        # echo VER_1C_fromJSON2 = $VER_1C_fromJSON2                                       #  it works in LINUX
-        # echo VER_1C_fromJSON2 = ${{ env.VER_1C_fromJSON2 }}                             #  it works
-        # echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}       #  doesn't work
+
     - name: Check result 16
       run: |
         echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
@@ -165,4 +158,3 @@ jobs:
         echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
-
