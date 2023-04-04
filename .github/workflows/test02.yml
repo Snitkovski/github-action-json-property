@@ -99,19 +99,21 @@ jobs:
 #         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
 
     # Assigning all Variables values from JSON file
-#    - name: Assigning values from JSON to Variables
-#      env:
-#        BASE_PATH_fromJSON: ${{ steps.get_base_path.outputs.prop }}
-#        REPO_NAME_fromJSON: ${{ steps.get_repo_name.outputs.prop }}
-#        PROJ_NAME_fromJSON: ${{ steps.get_proj_name.outputs.prop }}
-#        PROD_NAME_fromJSON: ${{ steps.get_prod_name.outputs.prop }}
-#        VER_1C_fromJSON:    ${{ steps.get_ver1c.outputs.prop }}
-#      run: |
-#        echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
-#        echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
-#        echo PROJ_NAME_fromJSON = $PROJ_NAME_fromJSON
-#        echo PROD_NAME_fromJSON = $PROD_NAME_fromJSON
-#        echo VER_1C_fromJSON    = $VER_1C_fromJSON
+    - name: Assigning values from JSON to Variables
+      env:
+        BASE_PATH_fromJSON: ${{ steps.get_base_path.outputs.prop }}
+        REPO_NAME_fromJSON: ${{ steps.get_repo_name.outputs.prop }}
+        PROJ_NAME_fromJSON: ${{ steps.get_proj_name.outputs.prop }}
+        PROD_NAME_fromJSON: ${{ steps.get_prod_name.outputs.prop }}
+        VER_1C_fromJSON:    ${{ steps.get_ver1c.outputs.prop }}
+        PROD_VER_fromConfiguration: ${{ steps.get_xml.outputs.info }}
+      run: |
+        echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
+        echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
+        echo PROJ_NAME_fromJSON = $PROJ_NAME_fromJSON
+        echo PROD_NAME_fromJSON = $PROD_NAME_fromJSON
+        echo VER_1C_fromJSON    = $VER_1C_fromJSON
+        echo PROD_VER_fromConfiguration = $PROD_VER_fromConfiguration
 
 
     # Assigning all Variables values from XML file
@@ -172,18 +174,18 @@ jobs:
         echo VER_1C_fromJSON2   = $VER_1C_fromJSON2
         echo PROD_VER_fromConf5 = $PROD_VER_fromConf5
         echo
-        echo BASE_PATH_fromJSON = ${{ env.BASE_PATH_fromJSON }}
-        echo REPO_NAME_fromJSON = ${{ env.REPO_NAME_fromJSON }}
-        echo PROJ_NAME_fromJSON = ${{ env.PROJ_NAME_fromJSON }}
-        echo PROD_NAME_fromJSON = ${{ env.PROD_NAME_fromJSON }}
-        echo VER_1C_fromJSON1   = ${{ env.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON2   = ${{ env.VER_1C_fromJSON2 }}
+        echo BASE_PATH_fromJSON = ${{ env.BASE_PATH_fromJSON }}       #  doesn't work
+        echo REPO_NAME_fromJSON = ${{ env.REPO_NAME_fromJSON }}       #  doesn't work
+        echo PROJ_NAME_fromJSON = ${{ env.PROJ_NAME_fromJSON }}       #  doesn't work
+        echo PROD_NAME_fromJSON = ${{ env.PROD_NAME_fromJSON }}       #  doesn't work
+        echo VER_1C_fromJSON1   = ${{ env.VER_1C_fromJSON1 }}       #  doesn't work
+        echo VER_1C_fromJSON2   = ${{ env.VER_1C_fromJSON2 }}       #  doesn't work
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
         echo
-        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}       #  doesn't work
-        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}       #  doesn't work
-        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.prop }}       #  doesn't work
-        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.prop }}       #  doesn't work
+        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}
+        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}
+        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.prop }}
+        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.prop }}
         echo VER_1C_fromJSON1   = ${{ steps.get_version.outputs.prop }}
         echo PROD_VER_fromConfiguration = ${{ steps.get_xml.outputs.info }}
 
