@@ -29,61 +29,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: get repository
+    - name: Get repository
       uses: actions/checkout@master                 #  v1
 
-    - name: get version
+    - name: Get version
       id: get_version
-      uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'package.json'
         prop_path: 'version'                        #  "version": "0.2.0",
 
-    - name: get ver
-      id: get_ver
-      uses: ./                                      #  uses: notiz-dev/github-action-json-property@release
-      with: 
-        path: 'package.json'
-        prop_path: 'ver_onec'                        #  "version": "0.2.0",
-
     - name: Get Base_Path_fromJSON
       id: get_base_path
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'base_path'
     
     - name: Get Repo_Name_fromJSON
       id: get_repo_name
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'repo_name'
     
     - name: Get Proj_Name_fromJSON
       id: get_proj_name
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'proj_name'
     
     - name: Get Prod_Name_fromJSON
       id: get_prod_name
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'prod_name'
     
-    - name: get version1c
+    - name: Get version1c
       id: get_version1c
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'ver_onec'
 
     - name: Get VER_1C_fromJSON
       id: get_ver1c
-      uses: ./
+      uses: notiz-dev/github-action-json-property@release
       with: 
         path: 'build_config.json'
         prop_path: 'ver_onec'                        #  "version": "0.2.0",
@@ -94,6 +87,37 @@ jobs:
 #       with: 
 #         path: 'package.json'
 #         prop_path: 'scripts.format'                 #    "scripts": { "build": "tsc && npm run pack", "format": "prettier --write **/*.ts", ..., ... }
+
+    # Assigning all Variables values from JSON file
+    - name: Assigning values from JSON to Variables
+      env:
+        BASE_PATH_fromJSON: ${{ steps.get_base_path.outputs.prop }}
+        REPO_NAME_fromJSON: ${{ steps.get_repo_name.outputs.prop }}
+        PROJ_NAME_fromJSON: ${{ steps.get_proj_name.outputs.prop }}
+        PROD_NAME_fromJSON: ${{ steps.get_prod_name.outputs.prop }}
+        VER_1C_fromJSON:    ${{ steps.get_ver1c.outputs.prop }}
+      shell: cmd
+      run: |
+        echo BASE_PATH_fromJSON = %BASE_PATH_fromJSON%
+        echo REPO_NAME_fromJSON = %REPO_NAME_fromJSON%
+        echo PROJ_NAME_fromJSON = %PROJ_NAME_fromJSON%
+        echo PROD_NAME_fromJSON = %PROD_NAME_fromJSON%
+        echo VER_1C_fromJSON    = %VER_1C_fromJSON%
+
+
+    # Assigning all Variables values from XML file
+    - name: Get XML
+      id: get_xml
+      uses: mavrosxristoforos/get-xml-info@1.0
+      with:
+        xml-file: 'src\Configuration\Configuration.mdo'
+        xpath:    '//version'
+
+    - env:
+        PROD_VER_fromConf5: ${{ steps.get_xml.outputs.info }}
+      shell: cmd
+      run: |
+        echo PROD_VER_fromConf5 = %PROD_VER_fromConf5%
     
 
         # echo ${{ steps.get_json_property.outputs.propStr }}             # as a String - in '...'
@@ -113,14 +137,14 @@ jobs:
         echo PROD_VER_fromConfiguration = ${{ steps.get_base_path.outputs.prop }}
         
     
-    - name: Assigning values from JSON to Variables
-      run: |
-        echo "BASE_PATH_fromJSON=${{ steps.get_base_path.outputs.prop }}" >> $GITHUB_ENV
-        echo "REPO_NAME_fromJSON=${{ steps.get_repo_name.outputs.prop }}" >> $GITHUB_ENV
-        echo "PROJ_NAME_fromJSON=${{ steps.get_proj_name.outputs.prop }}" >> $GITHUB_ENV
-        echo "PROD_NAME_fromJSON=${{ steps.get_prod_name.outputs.prop }}" >> $GITHUB_ENV
-        echo "VER_1C_fromJSON1=${{ steps.get_ver1c.outputs.prop }}" >> $GITHUB_ENV                      #  it works
-        echo "VER_1C_fromJSON2=${{ steps.get_version1c.outputs.prop }}" >> $GITHUB_ENV                  #  it works
+#    - name: Assigning values from JSON to Variables
+#      run: |
+#        echo "BASE_PATH_fromJSON=${{ steps.get_base_path.outputs.prop }}" >> $GITHUB_ENV
+#        echo "REPO_NAME_fromJSON=${{ steps.get_repo_name.outputs.prop }}" >> $GITHUB_ENV
+#        echo "PROJ_NAME_fromJSON=${{ steps.get_proj_name.outputs.prop }}" >> $GITHUB_ENV
+#        echo "PROD_NAME_fromJSON=${{ steps.get_prod_name.outputs.prop }}" >> $GITHUB_ENV
+#        echo "VER_1C_fromJSON1=${{ steps.get_ver1c.outputs.prop }}" >> $GITHUB_ENV                      #  it works
+#        echo "VER_1C_fromJSON2=${{ steps.get_version1c.outputs.prop }}" >> $GITHUB_ENV                  #  it works
 #      env:
 #        VER_1C_fromJSON3: ${{ steps.get_version.outputs.prop }}
     
@@ -158,3 +182,4 @@ jobs:
         echo VER_1C_fromJSON2 = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
+
