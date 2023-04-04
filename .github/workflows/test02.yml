@@ -178,12 +178,12 @@ jobs:
         echo PROD_NAME_fromJSON = ${{ env.PROD_NAME_fromJSON }}
         echo VER_1C_fromJSON1   = ${{ env.VER_1C_fromJSON1 }}
         echo VER_1C_fromJSON2   = ${{ env.VER_1C_fromJSON2 }}
-        echo
-        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.BASE_PATH_fromJSON }}       #  doesn't work
-        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.REPO_NAME_fromJSON }}       #  doesn't work
-        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.PROJ_NAME_fromJSON }}       #  doesn't work
-        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.PROD_NAME_fromJSON }}       #  doesn't work
-        echo VER_1C_fromJSON1   = ${{ steps.get_version.outputs.VER_1C_fromJSON1 }}
-        echo VER_1C_fromJSON2   = ${{ steps.get_version.outputs.VER_1C_fromJSON2 }}
         echo PROD_VER_fromConfiguration = ${{ env.PROD_VER_fromConfiguration }}
+        echo
+        echo BASE_PATH_fromJSON = ${{ steps.get_base_path.outputs.prop }}       #  doesn't work
+        echo REPO_NAME_fromJSON = ${{ steps.get_repo_name.outputs.prop }}       #  doesn't work
+        echo PROJ_NAME_fromJSON = ${{ steps.get_proj_name.outputs.prop }}       #  doesn't work
+        echo PROD_NAME_fromJSON = ${{ steps.get_prod_name.outputs.prop }}       #  doesn't work
+        echo VER_1C_fromJSON1   = ${{ steps.get_version.outputs.prop }}
+        echo PROD_VER_fromConfiguration = ${{ steps.get_xml.outputs.info }}
 
