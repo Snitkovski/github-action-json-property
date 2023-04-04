@@ -96,13 +96,12 @@ jobs:
         PROJ_NAME_fromJSON: ${{ steps.get_proj_name.outputs.prop }}
         PROD_NAME_fromJSON: ${{ steps.get_prod_name.outputs.prop }}
         VER_1C_fromJSON:    ${{ steps.get_ver1c.outputs.prop }}
-      shell: cmd
       run: |
-        echo BASE_PATH_fromJSON = %BASE_PATH_fromJSON%
-        echo REPO_NAME_fromJSON = %REPO_NAME_fromJSON%
-        echo PROJ_NAME_fromJSON = %PROJ_NAME_fromJSON%
-        echo PROD_NAME_fromJSON = %PROD_NAME_fromJSON%
-        echo VER_1C_fromJSON    = %VER_1C_fromJSON%
+        echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
+        echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
+        echo PROJ_NAME_fromJSON = $PROJ_NAME_fromJSON
+        echo PROD_NAME_fromJSON = $PROD_NAME_fromJSON
+        echo VER_1C_fromJSON    = $VER_1C_fromJSON
 
 
     # Assigning all Variables values from XML file
@@ -115,9 +114,8 @@ jobs:
 
     - env:
         PROD_VER_fromConf5: ${{ steps.get_xml.outputs.info }}
-      shell: cmd
       run: |
-        echo PROD_VER_fromConf5 = %PROD_VER_fromConf5%
+        echo PROD_VER_fromConf5 = $PROD_VER_fromConf5
     
 
         # echo ${{ steps.get_json_property.outputs.propStr }}             # as a String - in '...'
