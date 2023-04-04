@@ -165,6 +165,13 @@ jobs:
     
 
     - name: Check result 16
+      env:
+        BASE_PATH_fromJSON: ${{ steps.get_base_path.outputs.prop }}
+        REPO_NAME_fromJSON: ${{ steps.get_repo_name.outputs.prop }}
+        PROJ_NAME_fromJSON: ${{ steps.get_proj_name.outputs.prop }}
+        PROD_NAME_fromJSON: ${{ steps.get_prod_name.outputs.prop }}
+        VER_1C_fromJSON:    ${{ steps.get_ver1c.outputs.prop }}
+        PROD_VER_fromConfiguration: ${{ steps.get_xml.outputs.info }}
       run: |
         echo BASE_PATH_fromJSON = $BASE_PATH_fromJSON
         echo REPO_NAME_fromJSON = $REPO_NAME_fromJSON
